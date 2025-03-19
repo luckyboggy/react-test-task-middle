@@ -1,0 +1,17 @@
+@import "app/styles/breakpoints.scss";
+
+.productList {
+  .heading {
+  }
+  .content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    justify-content: center;
+
+    @include breakpoint(md) {
+      grid-template-columns: repeat(2, 1fr);
+      
+    }
+  }
+}

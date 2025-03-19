@@ -1,0 +1,15 @@
+.colorItem {
+    width: 30px;
+    height: 30px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    margin-right: 1rem;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+      transition: transform 0.2s;
+    }
+  }
+  .choosenColor {
+    border: 2px solid var(--main-hover);
+  }

@@ -1,0 +1,28 @@
+@import "app/styles/breakpoints.scss";
+
+.productItem {
+  .wrapper {
+    .image {
+      &:hover {
+        cursor: pointer;
+      }
+      img {
+        max-width: 200px;
+        @include breakpoint(md) {
+          max-width: 100%;
+        }
+      }
+    }
+    .description {
+      margin-top: 10px;
+      .title {
+        font: var(--font-m);
+        color: var(--main-color);
+        &:hover {
+          cursor: pointer;
+          color: var(--main-hover);
+        }
+      }
+    }
+  }
+}

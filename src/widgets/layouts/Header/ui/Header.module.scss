@@ -1,0 +1,49 @@
+@import "app/styles/breakpoints.scss";
+
+.header {
+  height: 50px;
+  background-color: var(--main-color);
+  color: var(--element-color);
+
+  .wrapper {
+    max-width: 800px;
+    height: 100%;
+    margin: auto;
+
+    @include breakpoint(md) {
+      max-width: 90%;
+    }
+
+    .navigation {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      justify-content: space-between;
+      .link {
+        position: relative;
+        color: var(--element-color);
+        text-decoration: none;
+        line-height: 1;
+        font: var(--font-m);
+        &:hover {
+          color: var(--element-hover);
+        }
+        .count {
+          position: absolute;
+          background-color: var(--element-color);
+          color: var(--main-color);
+          height: 16px;
+          width: 16px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          bottom: -6px;
+          right: -16px;
+          font: var(--font-s);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

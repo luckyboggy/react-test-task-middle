@@ -1,0 +1,21 @@
+@import "app/styles/breakpoints.scss";
+
+.footer {
+  height: 50px;
+  background-color: var(--addition-color);
+  .wrapper {
+    margin: auto;
+    max-width: 800px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include breakpoint(md) {
+      max-width: 90%;
+    }
+    .copyright {
+      color: var(--main-hover);
+    }
+  }
+}

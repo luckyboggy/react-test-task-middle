@@ -1,0 +1,36 @@
+.carousel {
+  position: relative;
+  width: 100%;
+  img {
+    width: 100%;
+    display: block;
+  }
+  .btn {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    .prev,
+    .next {
+      width: 40px;
+      height: 40px;
+      font: var(--font-l);
+      background-color: #acacaccb;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+@import "app/styles/breakpoints.scss";
+
+.product {
+  max-width: 800px;
+  margin: auto;
+  color: var(--main-color);
+  padding: 1rem;
+
+  @include breakpoint(md) {
+    max-width: 100%;
+  }
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+
+    @include breakpoint(md) {
+      grid-template-columns:  1fr;
+      gap: 1rem;
+    }
+
+    .image {
+      width: 100%;
+    }
+    .info {
+      font: var(--font-m);
+      .title {
+        color: var(--main-color);
+        font: var(--font-l);
+      }
+      .description {
+        margin: 1rem 0;
+      }
+      .price {
+        margin: 1rem 0;
+        color: var(--main-color);
+        font: var(--font-l);
+      }
+
+      .colorChooser {
+        display: flex;
+        margin: 1rem 0 2rem;
+      }
+
+      .heading {
+        font: var(--font-s);
+      }
+
+      .sizeChooser {
+        display: flex;
+        margin: 1rem 0 3rem;
+      }
+      .btn {
+        
+      }
+    }
+  }
+}

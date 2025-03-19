@@ -1,0 +1,63 @@
+@import "app/styles/breakpoints.scss";
+
+.basket {
+  max-width: 800px;
+  margin: auto;
+  color: var(--main-color);
+  padding: 1rem;
+  font: var(--font-l);
+
+  @include breakpoint(md) {
+    max-width: 90%;
+  }
+  hr {
+    margin: 1rem 0;
+  }
+  .title {
+    font: var(--font-l);
+  }
+  .totalPrice {
+    color: var(--main-color);
+    font: var(--font-l);
+    display: flex;
+    justify-content: flex-end;
+  }
+  .btn {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    .orderBtn {
+      width: 100px;
+      height: 40px;
+      background-color: var(--main-color);
+      color: var(--element-color);
+      font: var(--font-m);
+      border: 2px solid var(--main-color);
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+.emptyBasket {
+  max-width: 800px;
+  margin: auto;
+  color: var(--main-color);
+  padding: 1rem;
+  font: var(--font-l);
+  .title {
+    text-align: center;
+    font: var(--font-l);
+  }
+  .link {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--main-color);
+    font: var(--font-s);
+    &:hover {
+      color: var(--main-hover);
+    }
+  }
+}

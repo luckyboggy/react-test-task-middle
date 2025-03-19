@@ -1,0 +1,11 @@
+@import "app/styles/breakpoints.scss";
+
+.mainPage {
+  max-width: 800px;
+  margin: auto;
+  color: var(--main-color);
+  padding: 1rem;
+  @include breakpoint(md) {
+    max-width: 90%;
+  }
+}

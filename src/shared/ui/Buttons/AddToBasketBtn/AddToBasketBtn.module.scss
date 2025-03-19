@@ -1,0 +1,20 @@
+.basketBtn {
+  width: 100px;
+  height: 40px;
+  background-color: var(--main-color);
+  color: var(--element-color);
+  font: var(--font-m);
+  border: 2px solid var(--main-color);
+  &:hover {
+    cursor: pointer;
+  }
+  
+}
+.toBasket {
+  background-color: var(--element-color);
+  color: var(--main-color);
+  .link {
+    text-decoration: none;
+    color: var(--main-color);
+  }
+}
