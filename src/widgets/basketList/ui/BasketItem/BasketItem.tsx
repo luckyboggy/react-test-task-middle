@@ -1,14 +1,19 @@
 import React, { FC, useEffect, useState } from "react";
 import { TBasketProduct, TColor, TProduct, TSize } from "shared/types/types";
-import { getProduct, getProductColor, getSize } from "services/api";
 import { handleDeleteFromBasket } from "shared/lib/functions/basketFunctions";
 import cls from "./BasketItem.module.scss";
 
 type TBasketItemProps = {
   basketProduct: TBasketProduct;
+  products: TProduct[];
+  sizes: TSize[];
 };
 
-const BasketItem: FC<TBasketItemProps> = ({ basketProduct }) => {
+const BasketItem: FC<TBasketItemProps> = ({
+  basketProduct,
+  products,
+  sizes,
+}) => {
   const { bProductId, bProductColorId, bProductSizeId } = basketProduct;
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,30 +23,22 @@ const BasketItem: FC<TBasketItemProps> = ({ basketProduct }) => {
   const [bProductSize, setBProductSize] = useState<TSize>();
 
   useEffect(() => {
-    getProduct(bProductId)
-      .then((data) => {
-        setBProduct(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .then(() => {
-        getProductColor(bProductId, bProductColorId).then((data) => {
-          setBProductColor(data);
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .then(() => {
-        getSize(bProductSizeId).then((data) => {
-          setBProductSize(data);
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [bProductId, bProductColorId, bProductSizeId]);
+    const p = products.find((p) => p.id === bProductId);
+    if (p) {
+      setBProduct(p);
+
+      const c = p.colors.find((color) => color.id === bProductColorId);
+      if (c) {
+        setBProductColor(c);
+
+        const s = sizes.find((size) => size.id === bProductSizeId);
+        if (s) {
+          setBProductSize(s);
+        }
+      }
+    }
+    setLoading(false);
+  }, [bProductColorId, bProductId, bProductSizeId, products, sizes]);
 
   if (loading) {
     return <div className={cls.basketItem}>Loading...</div>;
@@ -51,7 +48,7 @@ const BasketItem: FC<TBasketItemProps> = ({ basketProduct }) => {
     <div className={cls.basketItem}>
       <div className={cls.wrapper}>
         <div className={cls.image}>
-          <img src={bProductColor && bProductColor.images[0]} alt="" />
+          {bProductColor && <img src={bProductColor.images[0]} alt="" />}
         </div>
         {bProduct && bProductColor && bProductSize && (
           <div className={cls.info}>

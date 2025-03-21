@@ -8,13 +8,11 @@ type TColorChppserItemProps = {
   chooseColor: (id: number) => void;
 };
 
-const colorMap: { [key: string]: string } = {
-  черный: "#000000",
-  белый: "#FFFFFF",
-  серый: "#808080",
-  желтый: "#FFFF00",
-  синий: "#0000FF",
-};
+// Условия рендера компонента по currentColor
+// Компонент отрисовываем всегда, проверку что currentColor не null перенес
+
+// убрал colorMap, добавил hex в api
+// можно, конечно, было выводить color.name
 
 const ColorChooserItem: FC<TColorChppserItemProps> = ({
   color,
@@ -22,21 +20,15 @@ const ColorChooserItem: FC<TColorChppserItemProps> = ({
   chooseColor,
 }) => {
   return (
-    <div>
-      {currentColor && (
-        <div
-          className={`${cls.colorItem}  ${
-            color.name === currentColor.name ? cls.choosenColor : ""
-          }`}
-          style={{ backgroundColor: colorMap[color.name] }}
-          key={color.id}
-          onClick={(event) => {
-            event.preventDefault();
-            chooseColor(color.id);
-          }}
-        ></div>
-      )}
-    </div>
+    <div
+      className={`${cls.colorItem}  ${
+        currentColor && color.name === currentColor.name ? cls.choosenColor : ""
+      }`}
+      style={{ backgroundColor: color.colorHex }}
+      onClick={() => {
+        chooseColor(color.id);
+      }}
+    ></div>
   );
 };
 

@@ -7,6 +7,7 @@ export type TSize = {
 export type TColor = {
   id: number;
   name: string;
+  colorHex: string;
   images: string[];
   price: string;
   description: string;
@@ -24,6 +25,3 @@ export type TBasketProduct = {
   bProductColorId: number;
   bProductSizeId: number;
 };
-
-
-

@@ -47,25 +47,26 @@ const Product: FC = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  
   // Измменение цвета происходит без запроса на сервер
-
   const handleChooseColor = async (newId: number) => {
     if (product) {
       const newColor =
         product.colors.find((color) => color.id === newId) || null;
-      setCurrentColorId(newId);
-      setCurrentColor(newColor);
+      if (newColor !== currentColor) {
+        setCurrentColorId(newId);
+        setCurrentColor(newColor);
+      }
     }
   };
-
   // Но теперь при изменении цвета мы перестали получать актуальную информацию о наличии размеров
 
   // Можно попробовать это решить путем загрузки данных в фоновом режиме
-  // чтобы звпрос на сервер выполнялся после обновления интерфейса
+  // чтобы звпрос на сервер выполнялся параллельно с обновлением интерфейса
   // Но там будут возникать баги, при медленной скорости загрузки и быстром переключении цветов
-  // Эту проблему можно было бы решить при помощи AbortController, чтобы все запросы кроме последнего игнорировались
-  // но для этого нужно было бы редактировать getProductColor() в api
+  // Эту проблему можно было бы решить при помощи AbortController, чтобы все запросы кроме последнего отменялись
+  // Для этого нужно было бы редактировать getProductColor() в api
+
+  // Но скорее всего данное задание не подразумевало залезание в подобные дебри
 
   if (loading) return <div className={cls.product}>Loading...</div>;
   if (!product) return <div className={cls.product}>Продукт не найден</div>;

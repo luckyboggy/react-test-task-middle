@@ -7,6 +7,8 @@ import ProductItem from "../ProductItem/ProductItem";
 const ProductList: FC = () => {
   const [products, setProducts] = useState<TProduct[]>([]);
 
+  const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
     getProducts()
       .then((data) => {
@@ -14,8 +16,10 @@ const ProductList: FC = () => {
       })
       .catch((error) => {
         console.error(error);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
+  if (loading) return <div className={cls.productList}>Loading...</div>;
 
   return (
     <div className={cls.productList}>

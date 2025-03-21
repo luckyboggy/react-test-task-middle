@@ -1,4 +1,4 @@
-import { TColor, TProduct, TSize } from "shared/types/types";
+import { TBasketProduct, TColor, TProduct, TSize } from "shared/types/types";
 
 const sizes: TSize[] = [
   { id: 1, label: "XS", number: 44 },
@@ -16,6 +16,7 @@ const products: TProduct[] = [
       {
         id: 1,
         name: "черный",
+        colorHex: "#000000",
         images: ["/images/1/black_front.png", "/images/1/black_back.png"],
         price: "123.00",
         description: 'Описание для "Футболка черный"',
@@ -24,6 +25,7 @@ const products: TProduct[] = [
       {
         id: 2,
         name: "белый",
+        colorHex: "#FFFFFF",
         images: ["/images/1/white_front.png", "/images/1/white_back.png"],
         price: "125.00",
         description: 'Описание для "Футболка белый"',
@@ -32,6 +34,7 @@ const products: TProduct[] = [
       {
         id: 3,
         name: "серый",
+        colorHex: "#808080",
         images: ["/images/1/gray_front.png", "/images/1/gray_back.png"],
         price: "120.00",
         description: 'Описание для "Футболка серый"',
@@ -47,6 +50,7 @@ const products: TProduct[] = [
       {
         id: 1,
         name: "желтый",
+        colorHex: "#FFFF00",
         images: ["/images/2/yellow_front.png", "/images/2/yellow_back.png"],
         price: "88.00",
         description: 'Описание для "Майка желтый"',
@@ -55,6 +59,7 @@ const products: TProduct[] = [
       {
         id: 2,
         name: "синий",
+        colorHex: "#0000FF",
         images: ["/images/2/blue_front.png", "/images/2/blue_back.png"],
         price: "89.00",
         description: 'Описание для "Майка синий"',
@@ -63,6 +68,7 @@ const products: TProduct[] = [
       {
         id: 3,
         name: "черный",
+        colorHex: "#000000",
         images: ["/images/2/black_front.png", "/images/2/black_back.png"],
         price: "90.00",
         description: 'Описание для "Майка черный"',
@@ -72,11 +78,10 @@ const products: TProduct[] = [
   },
 ];
 
-const timeOut: number = 2000;
+const timeOut: number = 3000;
 
 function getSizes(): Promise<TSize[]> {
-
-console.log('getSizes')
+  console.log("getSizes");
 
   return new Promise((resolve) => {
     setTimeout(() => resolve(sizes), timeOut);
@@ -84,8 +89,7 @@ console.log('getSizes')
 }
 
 function getSize(id: number): Promise<TSize> {
-
-  console.log('getSize')
+  console.log("getSize");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const size = sizes.find((size) => size.id === id);
@@ -98,15 +102,40 @@ function getSize(id: number): Promise<TSize> {
   });
 }
 
-function getProducts(): Promise<TProduct[]> {
-  console.log('getProducts')
+// function getProducts(): Promise<TProduct[]> {
+//   console.log('getProducts')
+//   return new Promise((resolve) => {
+//     setTimeout(() => resolve(products), timeOut);
+//   });
+// }
+
+// Получаем только продукты id которых есть в корзине
+function getProducts(
+  necessaryProducts: TBasketProduct[] = []
+): Promise<TProduct[]> {
+  console.log("getProducts");
+
+  // если нет аргументов - возвращаем все товары
+  if (necessaryProducts.length === 0) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(products), timeOut);
+    });
+  }
+
+  const necessaryIds = necessaryProducts.map((bp) => bp.bProductId);
+
   return new Promise((resolve) => {
-    setTimeout(() => resolve(products), timeOut);
+    setTimeout(() => {
+      const filteredProducts = products.filter((product) =>
+        necessaryIds.includes(product.id)
+      );
+      resolve(filteredProducts);
+    }, timeOut);
   });
 }
 
 function getProduct(id: number): Promise<TProduct> {
-  console.log('getProduct')
+  console.log("getProduct");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const product = products.find((product) => product.id === id);
@@ -120,7 +149,7 @@ function getProduct(id: number): Promise<TProduct> {
 }
 
 function getProductColor(productID: number, colorID: number): Promise<TColor> {
-  console.log('getProductColor')
+  console.log("getProductColor");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const product = products.find((product) => product.id === productID);
@@ -139,5 +168,6 @@ function getProductColor(productID: number, colorID: number): Promise<TColor> {
     }, timeOut);
   });
 }
+
 
 export { getSizes, getSize, getProducts, getProduct, getProductColor };

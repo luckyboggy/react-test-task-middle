@@ -10,7 +10,7 @@ type TSizeChooserItem = {
   size: TSize;
   color: TColor | null;
   currentSizeId: number | null;
-  chooseSize: (id: number) => void;
+  chooseSize: (id: number | null) => void;
 };
 
 const SizeChooserItem: FC<TSizeChooserItem> = ({
@@ -32,7 +32,7 @@ const SizeChooserItem: FC<TSizeChooserItem> = ({
       onClick={() => {
         if (isAvailableSize(size.id, color)) {
           if (currentSizeId === size.id) {
-            chooseSize(0);
+            chooseSize(null);
           } else {
             chooseSize(size.id);
           }
