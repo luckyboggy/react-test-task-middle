@@ -13,8 +13,9 @@ export const isAvailableSize = (
 // Проверка выбран ли размер
 export const isCurrentSize = (
   sizeId: number,
-  currentSizeId: number
+  currentSizeId: number | null
 ): boolean => {
+  if (!currentSizeId) return false;
   return currentSizeId === sizeId;
 };
 
@@ -39,5 +40,3 @@ export const isInBasket = (basketProduct: TBasketProduct): boolean => {
     return true;
   return false;
 };
-
-

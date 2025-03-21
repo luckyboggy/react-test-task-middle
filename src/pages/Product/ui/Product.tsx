@@ -15,15 +15,31 @@ const Product: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const [product, setProduct] = useState<TProduct>();
-  const [currentColorId, setCurrentColorId] = useState<number>(1);
   const [currentColor, setCurrentColor] = useState<TColor | null>(null);
   const [sizes, setSizes] = useState<TSize[]>([]);
-  const [currentSizeId, setCurrentSizeId] = useState<number>(0);
 
+  // Значения по умолчанию не задаются
+  const [currentColorId, setCurrentColorId] = useState<number | null>(null);
+  const [currentSizeId, setCurrentSizeId] = useState<number | null>(null);
+
+  // Объединил в один useEffect
   useEffect(() => {
-    getProduct(Number(id))
-      .then((data) => {
-        setProduct(data);
+    setLoading(true);
+    Promise.all([getProduct(Number(id)), getSizes()])
+      .then(([productData, sizesData]) => {
+        setProduct(productData);
+        setSizes(sizesData);
+
+        return productData;
+      })
+      .then((productData) => {
+        setCurrentColorId(productData.colors[0].id);
+        return getProductColor(Number(id), productData.colors[0].id);
+      })
+      .then((colorData) => {
+        if (colorData) {
+          setCurrentColor(colorData);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -31,19 +47,25 @@ const Product: FC = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  useEffect(() => {
-    getProductColor(Number(id), currentColorId)
-      .then((data) => {
-        setCurrentColor(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [currentColorId, id]);
+  
+  // Измменение цвета происходит без запроса на сервер
 
-  useEffect(() => {
-    getSizes().then((data) => setSizes(data));
-  }, [id]);
+  const handleChooseColor = async (newId: number) => {
+    if (product) {
+      const newColor =
+        product.colors.find((color) => color.id === newId) || null;
+      setCurrentColorId(newId);
+      setCurrentColor(newColor);
+    }
+  };
+
+  // Но теперь при изменении цвета мы перестали получать актуальную информацию о наличии размеров
+
+  // Можно попробовать это решить путем загрузки данных в фоновом режиме
+  // чтобы звпрос на сервер выполнялся после обновления интерфейса
+  // Но там будут возникать баги, при медленной скорости загрузки и быстром переключении цветов
+  // Эту проблему можно было бы решить при помощи AbortController, чтобы все запросы кроме последнего игнорировались
+  // но для этого нужно было бы редактировать getProductColor() в api
 
   if (loading) return <div className={cls.product}>Loading...</div>;
   if (!product) return <div className={cls.product}>Продукт не найден</div>;
@@ -69,7 +91,7 @@ const Product: FC = () => {
                 key={color.id}
                 color={color}
                 currentColor={currentColor}
-                chooseColor={setCurrentColorId}
+                chooseColor={handleChooseColor}
               />
             ))}
           </div>
@@ -82,7 +104,7 @@ const Product: FC = () => {
                   key={size.id}
                   size={size}
                   color={currentColor}
-                  sizeId={currentSizeId}
+                  currentSizeId={currentSizeId}
                   chooseSize={setCurrentSizeId}
                 />
               ))}
@@ -90,15 +112,17 @@ const Product: FC = () => {
           <div className={cls.btn}>
             {noSizes(currentColor) ? (
               <div>Товар отсутствует</div>
-            ) : currentSizeId === 0 ? (
+            ) : currentSizeId === null ? (
               <div>Выберите размер</div>
             ) : (
-              <AddToBasketBtn
-                color={currentColor}
-                colorId={currentColorId}
-                sizeId={currentSizeId}
-                productId={Number(id)}
-              />
+              currentColorId !== null && (
+                <AddToBasketBtn
+                  color={currentColor}
+                  colorId={currentColorId}
+                  sizeId={currentSizeId}
+                  productId={Number(id)}
+                />
+              )
             )}
           </div>
         </div>

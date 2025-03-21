@@ -72,13 +72,20 @@ const products: TProduct[] = [
   },
 ];
 
+const timeOut: number = 2000;
+
 function getSizes(): Promise<TSize[]> {
+
+console.log('getSizes')
+
   return new Promise((resolve) => {
-    setTimeout(() => resolve(sizes), 250);
+    setTimeout(() => resolve(sizes), timeOut);
   });
 }
 
 function getSize(id: number): Promise<TSize> {
+
+  console.log('getSize')
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const size = sizes.find((size) => size.id === id);
@@ -87,17 +94,19 @@ function getSize(id: number): Promise<TSize> {
       } else {
         reject(new Error("getSize: Size not found"));
       }
-    }, 250);
+    }, timeOut);
   });
 }
 
 function getProducts(): Promise<TProduct[]> {
+  console.log('getProducts')
   return new Promise((resolve) => {
-    setTimeout(() => resolve(products), 250);
+    setTimeout(() => resolve(products), timeOut);
   });
 }
 
 function getProduct(id: number): Promise<TProduct> {
+  console.log('getProduct')
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const product = products.find((product) => product.id === id);
@@ -106,11 +115,12 @@ function getProduct(id: number): Promise<TProduct> {
       } else {
         reject(new Error("getProduct: Product not found"));
       }
-    }, 250);
+    }, timeOut);
   });
 }
 
 function getProductColor(productID: number, colorID: number): Promise<TColor> {
+  console.log('getProductColor')
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const product = products.find((product) => product.id === productID);
@@ -126,7 +136,7 @@ function getProductColor(productID: number, colorID: number): Promise<TColor> {
       } else {
         reject(new Error("getProductColor: Color not found"));
       }
-    }, 250);
+    }, timeOut);
   });
 }
 

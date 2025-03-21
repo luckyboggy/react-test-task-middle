@@ -18,13 +18,13 @@ const rootView = document.getElementById("root");
 if (rootView) {
   const root = ReactDOM.createRoot(rootView);
   root.render(
-    <React.StrictMode>
+    //<React.StrictMode>
       <Context.Provider value={{ customer }}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
       </Context.Provider>
-    </React.StrictMode>
+    //</React.StrictMode>
   );
 }
 export { customer };

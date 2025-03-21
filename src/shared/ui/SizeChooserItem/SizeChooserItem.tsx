@@ -9,30 +9,29 @@ import {
 type TSizeChooserItem = {
   size: TSize;
   color: TColor | null;
-  sizeId: number;
+  currentSizeId: number | null;
   chooseSize: (id: number) => void;
 };
 
 const SizeChooserItem: FC<TSizeChooserItem> = ({
   size,
   color,
-  sizeId,
+  currentSizeId,
   chooseSize,
 }) => {
   return (
     <div
-      key={size.id}
       className={`${cls.sizeItem} ${
         isAvailableSize(size.id, color) ? cls.availableSize : ""
       } ${
-        isCurrentSize(size.id, sizeId) &&
+        isCurrentSize(size.id, currentSizeId) &&
         isAvailableSize(size.id, color)
           ? cls.choosenSize
           : ""
       }`}
       onClick={() => {
         if (isAvailableSize(size.id, color)) {
-          if (sizeId === size.id) {
+          if (currentSizeId === size.id) {
             chooseSize(0);
           } else {
             chooseSize(size.id);
