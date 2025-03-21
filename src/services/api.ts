@@ -78,7 +78,7 @@ const products: TProduct[] = [
   },
 ];
 
-const timeOut: number = 3000;
+const timeOut: number = 250;
 
 function getSizes(): Promise<TSize[]> {
   console.log("getSizes");
